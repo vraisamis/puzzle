@@ -1,0 +1,132 @@
+\NeedsTeXFormat{pLaTeX2e}
+\ProvidesPackage{newpaz}[2013/04/15 v1.0 puzzle]
+\RequirePackage{multicol}
+
+\pagestyle{myheadings}
+
+\newlength{\mybaselineskip}
+
+\newlength{\topmarginsum}
+\newlength{\leftmarginsum}
+\newif\iften
+\tenfalse
+\DeclareOption{ten}{\tentrue}
+\DeclareOption{eleven}{\tenfalse}
+\iften
+	\setlength{\textwidth}{63zw}
+	\setlength{\textheight}{43zw}
+\else
+	\setlength{\textwidth}{57zw}
+	\setlength{\textheight}{37.75zw}
+\fi
+\setlength{\topmarginsum}{257truemm}
+\addtolength{\topmarginsum}{-\textwidth}
+\setlength{\leftmarginsum}{182truemm}
+\addtolength{\leftmarginsum}{-\textheight}
+\setlength{\topmargin}{0.5\topmarginsum}
+\setlength{\oddsidemargin}{0.5\leftmarginsum}
+\setlength{\evensidemargin}{0.5\leftmarginsum}
+\setlength{\parindent}{1zw}
+\setlength{\columnsep}{3zw}
+
+\addtolength{\oddsidemargin}{-1truein}
+\addtolength{\evensidemargin}{-1truein}
+\addtolength{\topmargin}{-1truein}
+\addtolength{\topmargin}{-\voffset}
+\addtolength{\topmargin}{-\headsep}
+\addtolength{\topmargin}{-\headheight}
+\setlength{\baselineskip}{1.75zw}
+\setlength{\mybaselineskip}{1.75zw}
+
+\newcommand{\Mymarkboth}[2]{\markboth{{\small #1}}{{\small #2}}}
+
+\newcommand{\Mains}[4]{
+	\newpage
+	\ifodd \arabic{page} \hbox{}\newpage{} \fi
+	\vbox to 6.25zw{
+		\hbox{}\par\vspace{\fill}\par
+		\noindent {\Large\hspace{3zw}#1}\par
+		\label{#4}
+	\hbox to \fill{#3}\par\hbox{}
+	}
+	\hspace{\fill}\hbox{#2 \hspace{2zw}}\par
+	\hbox{}\par
+	\Mymarkboth{\bookname}{#1}
+}
+\newenvironment{novel}[3]{
+	\Mains{#1}{#2}{\hbox{}}{#3}
+	\begin{multicols*}{2}\setlength{\baselineskip}{\mybaselineskip}\noautospacing
+}{
+	\end{multicols*}
+}
+\newenvironment{THS}[6]{
+	\Mains{#1}{#2}{#3 \ \ #4 \ \ #5}{#6}
+	\begin{multicols*}{2}\setlength{\baselineskip}{\mybaselineskip}\noautospacing
+}{
+	\end{multicols*}
+}
+\newenvironment{poetry}[3]{
+	\Mains{#1}{#2}{\hbox{}}{#3}
+	\begin{multicols*}{2}\setlength{\baselineskip}{\mybaselineskip}\noautospacing
+}{
+	\end{multicols*}
+}
+
+\newenvironment{mokuji}
+{\hbox{}\par\vspace{\fill}\par\Mymarkboth{\bookname}{}
+\begin{minipage}<y>{12truecm}\section*{\bookname \ \ \ \ 目次}}
+{\end{minipage}\par\vspace{\fill}\hbox{}}
+
+\newcommand{\contents}[3]
+{\noindent #1 \ \ {\dotfill}\ \ #2
+	\hbox to 2.5zw{\hspace{\fill}\rensuji{\pageref{#3}}}
+	\par\hbox{}\par}
+
+\def\――{―\kern-.5zw―\kern-.5zw―}
+
+\newenvironment{afterwords}
+{\section*{後書き}\label{sec:after} \Mymarkboth{\bookname}{後書き}
+	\begin{multicols*}{2}}
+{\end{multicols*}}
+
+\newenvironment{after}[1] {\par \def\@nametmp{#1}} {\hspace{4zw}\hbox{}{\hspace{\fill}} \hbox{\@nametmp}\hspace{1zw}\hbox{}\par\hbox{}\par}
+%\newenvironment{after}[1] {\par \def\@nametmp{#1}} {\hbox{}\hspace{\fill}\hbox{}\hbox{\hspace{4zw}\@nametmp\hspace{1zw}}\par\hbox{}\par}
+\newenvironment{master}[1]
+{　　＊　　＊　　＊\par\hbox{}\par \def\@nametmp{#1}}
+{\par\hbox{}\par\noindent{\bf ”私たちの、ものを創る喜びが　\par
+{\hspace{\fill}}貴方の、大きな楽しみに変わります様に……”} \par \hbox{} \par {\hspace{\fill}} {\@nametmp}}
+\newcommand{\okuduke}[1]{
+	\ifodd \arabic{page} \newpage\thispagestyle{empty}\hbox{}\fi
+	\newpage
+	\thispagestyle{empty}
+	\hbox{}\par
+	\vspace{\fill}\par
+	\hspace{\fill}\fbox{
+		\begin{minipage}<y>{10truecm}
+			\hspace{1.5zw}\vbox{
+				\bookname\par
+				発行日　\mydate\par
+				編集者　#1\par
+			}
+		\end{minipage}
+	}
+	\vspace{\fill}\par
+	\hbox{}
+}
+
+
+
+\newcommand{\topcontent}[1]{
+	\newpage
+	\ifodd \arabic{page} \else
+		\thispagestyle{empty}
+		\hbox{}
+		\newpage
+	\fi
+	\thispagestyle{empty}
+	\hbox{}\par
+	\vspace{\fill}\par
+	{\huge\bf \hbox{}\hspace{2zw} #1}\par
+	\vspace{3zw}\par
+	\hbox{}
+}
